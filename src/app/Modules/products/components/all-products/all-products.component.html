@@ -1,0 +1,96 @@
+<div class="box mt-5"> 
+    <div class="d-flex justify-content-between w-100">
+        
+    <div class=" my-2 w-25">
+        <app-select [list]="categories" [All]="true" [label]="'Filter By Category:'" (changes)="filterByCategory($event)"></app-select>
+    </div>
+    <button type="button" class="btn btn-success h-50" data-bs-toggle="modal" data-bs-target="#addProductModal" (click)="dialogStatus = 'Add'" >Add Product</button>
+    </div>
+    <!-- <div class="row" *ngIf="!isLoading">
+        <div class="col-md-3 col-sm-12" *ngFor="let item of products"  >
+        <app-product-card [product]="item" (addToCart)="addToCart($event)"></app-product-card>
+        </div>
+    </div> -->
+    <table class="table table-striped"  *ngIf="!isLoading" >
+        <thead style="text-align: center;">
+            <th></th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of products" >
+                <td routerLink="/details/{{item.id}}">
+                    <img class="" src="{{item.image}}" alt="">
+                </td>
+                <td routerLink="/details/{{item.id}}">{{item.title}}</td>
+                <td routerLink="/details/{{item.id}}">{{item.category}}</td>
+                <td routerLink="/details/{{item.id}}">{{item.price | currency}}</td>
+                <td>
+                    <button class="btn btn-warning m-1 " data-bs-toggle="modal" data-bs-target="#addProductModal" (click)="setStatusUPdate('Update',item)" >Update</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center h-100 w-100" *ngIf="isLoading" >
+        <app-spinner> </app-spinner>
+    </div>
+</div>
+
+<div class="modal fade" id="addProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 900px !important;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">{{dialogStatus}} Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body w-100">
+            <div class="text-center h-100 w-100" *ngIf="isLoadingDialog" >
+                <app-spinner> </app-spinner>
+            </div>
+            <div  *ngIf="!isLoadingDialog" >
+                <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12 m-1">
+                            <label>Title</label>
+                            <input type="text" class="form-control" formControlName="title" required>
+                        </div>
+                        <div class="col-md-4 col-sm-12 m-1">
+                            <label>Price</label>
+                            <input type="number" class="form-control" formControlName="price" required>
+                        </div>
+                        
+                        <div class=" col-sm-12 m-1">
+                        <app-select [list]="categories" [All]="false" [label]="'Category:'" (changes)="setCategoryForForm($event)"></app-select>
+                        <!-- <div class="form-floating"   >
+                            <select class="form-select" formControlName="category" >
+                                <option *ngFor="let item of categories" [value]="item">{{item}}</option>
+                            </select>
+                            <label for="floatingSelect">Category</label>
+                        </div> -->
+                    </div>
+                    <div class="col-md-6 col-sm-12 m-1">
+                        <label>Image</label>
+                        <img src="{{base64}}" alt="">
+                        <input type="file" class="form-control" (change)="getImgPath($event)" required>
+                    </div>
+                    
+                    <div class="col-md-6 col-sm-12 m-1">
+                        <label>Description</label>
+                        <textarea formControlName="description" class="form-control" required></textarea>
+                    </div >
+                    <div class="col-md-12 col-sm-12 m-1 d-flex justify-content-end">
+                        <button [ngClass]="{ 'btn-warning': dialogStatus === 'Update', 'btn-success': dialogStatus === 'Add' }"
+                         class="btn m-1 w-25 "  type="submit" [disabled]="!productForm.valid">Submit</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

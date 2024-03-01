@@ -1,0 +1,103 @@
+<div class="CartBox">
+    <form [formGroup]="formDate" (ngSubmit)="submit()">
+    <label class="input-text" for="inputGroupSelect01">filter by Date :</label>
+    <div class="input-group">
+        <span class="input-group-text">First and last Date :</span>
+        <input type="date" formControlName="startDate" class="form-control datepicker" #startDate aria-label="First name" class="form-control" required>
+        <input type="date" formControlName="endDate" class="form-control datepicker" #endDate aria-label="Last name" class="form-control" required>
+        <button type="submit" class="btn btn-success">Apply</button>
+      </div>
+    </form>
+    <div *ngIf="!isLoading && carts.length">
+
+    <table class="table table-striped">
+        <thead style="text-align: center;"> 
+            <th>User Id</th>
+            <th>Date</th>
+            <th class="w-25" >Quantity</th>
+            <th> Modify</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of carts;let i = index">
+                <td>{{item.userId}}</td>
+                <td>{{item.date | date}}</td>
+                <td>
+                    <div class="input-group mb-3">
+                       
+                        <input type="number" class="form-control" min="1" max="10" readonly [value]="getQuantityforCart(item)">
+                        
+                      </div>
+                </td>
+                <td>
+                    <button class="btn btn-primary mx-1" data-bs-toggle="modal" data-bs-target="#ViewModal" (click)="getProductsofCart(i)" >View</button>
+                    <button class="btn btn-danger" (click)="deleteItem(item)" >Remove</button>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="text-center h-100 w-100" *ngIf="isLoading" >
+    <app-spinner> </app-spinner>
+</div>
+</div>
+
+
+<div class="modal fade" id="ViewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Cart Details </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="text-center h-100 w-100" *ngIf="isLodingDialog" >
+                <app-spinner> </app-spinner>
+            </div>
+            <table class="table table-striped"  *ngIf="!isLodingDialog" >
+                <thead>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th class="w-25" >Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of productOfCart">
+                        <td>
+                            <img class="" src="{{item.product.image}}" alt="">
+                        </td>
+                        <td>{{item.product.title}}</td>
+                        <td>{{item.product.price | currency}}</td>
+                        <td>
+                            <div class="input-group mb-3">
+                                <!-- <button class="btn btn-outline-danger" type="button" (click)="decreaseQuantity(item)">-</button> -->
+                                <input type="number" class="form-control" min="1" max="10" readonly [value]="item.quantity">
+                                <!-- <button class="btn btn-outline-success" type="button" (click)="increaseQuantity(item)">+</button> -->
+                              </div>
+                        </td>
+                        <td>{{item.product.price*item.quantity | currency}}</td>
+                        <td>
+                            <!-- <button class="btn btn-danger" (click)="deleteItem(item)" >Remove</button> -->
+                        </td>
+                    </tr>
+                </tbody>
+                    <tfoot>
+                        <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-danger">Total : {{currentTotal|currency}}</th>
+                    </tfoot>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  

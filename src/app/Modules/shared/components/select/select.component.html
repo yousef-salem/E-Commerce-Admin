@@ -1,0 +1,8 @@
+
+<div class="form-floating">
+    <select class="form-select" (change)="detectChanges($event)" >
+      <option selected value="All" *ngIf="All">All</option>
+        <option *ngFor="let item of list" [value]="item">{{item}}</option>
+    </select>
+    <label for="floatingSelect">{{label}}</label>
+</div>
