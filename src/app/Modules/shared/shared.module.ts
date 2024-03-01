@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { SelectComponent } from './components/select/select.component';
-import { ProductCardComponent } from './components/product-card/product-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -14,7 +13,6 @@ import { RouterLink } from '@angular/router';
     HeaderComponent,
     SpinnerComponent,
     SelectComponent,
-    ProductCardComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +24,6 @@ import { RouterLink } from '@angular/router';
     HeaderComponent,
     SpinnerComponent,
     SelectComponent,
-    ProductCardComponent,
     FormsModule,
     ReactiveFormsModule
   ]

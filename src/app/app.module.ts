@@ -20,7 +20,6 @@ import { CartsModule } from './Modules/carts/carts.module';
     AppRoutingModule,
     CartsModule,
     HttpClientModule,
-    ProductsModule,
     FormsModule,
     ReactiveFormsModule ,
     CurrencyPipe,

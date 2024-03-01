@@ -43,7 +43,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">{{dialogStatus}} Product</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="ClearForm()"></button>
         </div>
         <div class="modal-body w-100">
             <div class="text-center h-100 w-100" *ngIf="isLoadingDialog" >
@@ -89,7 +89,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="ClearForm()">Close</button>
         </div>
       </div>
     </div>

@@ -16,8 +16,6 @@ export class AllProductsComponent implements OnInit{
   categories:string[]=[];
   category:string = "All";
   isLoading : boolean = false;
-  cartProducts : CartItem[]= [];
-  tempCartItem! : CartItem ;
   isLoadingDialog = false;
   productForm : FormGroup;
   base64 : any ='';
@@ -83,29 +81,13 @@ export class AllProductsComponent implements OnInit{
       }
     })
   }
-  addToCart($event : any){
-    if("cart" in localStorage){
-      this.cartProducts = JSON.parse(localStorage.getItem("cart")!);
-      let exist = this.cartProducts.find((item : CartItem)=> item.product.id == $event.product.id);
-      if(exist){
-        exist.quantity = $event.quantity;
-      }else{
-      
-        this.cartProducts.push($event);
-      }
-      localStorage.setItem("cart", JSON.stringify(this.cartProducts));
-    }else{
-      this.cartProducts.push($event);
-      localStorage.setItem("cart", JSON.stringify(this.cartProducts));
-    }
-  }
   addProduct(product:Product){
     this.isLoadingDialog = true;
     this.productService.addProduct(product).subscribe({
       next:(res)=>{
         this.products.push(res);
         this.productService.onResponseSuccess('Success', 'Product Added');
-        this.productForm.reset();
+        this.ClearForm();
         this.isLoadingDialog = false;
       },error:(err)=>{
         this.productService.onResponsefaild(err);
@@ -158,7 +140,7 @@ export class AllProductsComponent implements OnInit{
     this.productService.updateProduct(product , this.CurrentProduct.id).subscribe({
       next:(res)=>{
         this.productService.onResponseSuccess('Success', 'Product Updated');
-        this.productForm.reset();
+        this.ClearForm();
         this.isLoadingDialog = false;
       },error:(err)=>{
         this.productService.onResponsefaild(err);
@@ -166,5 +148,9 @@ export class AllProductsComponent implements OnInit{
         this.isLoadingDialog = false;
       }
     });
+  }
+
+  ClearForm(){
+    this.productForm.reset();
   }
 }
